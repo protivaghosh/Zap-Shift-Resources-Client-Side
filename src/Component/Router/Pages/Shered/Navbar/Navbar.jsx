@@ -1,10 +1,11 @@
 import React from 'react';
 import Logo from '../../../../Logo/Logo';
+import { NavLink } from 'react-router';
 
 const Navbar = () => {
     const link = <>
             <li><a>Services</a></li>
-            <li><a>Coverage</a></li>
+            <li><a><NavLink to='/coverage'>Coverage</NavLink></a></li>
             <li><a>About Us</a></li>
             <li><a>Pricing</a></li>
             <li><a>Blog</a></li>
