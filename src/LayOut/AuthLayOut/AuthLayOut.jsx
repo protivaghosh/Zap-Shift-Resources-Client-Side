@@ -6,15 +6,16 @@ import Logo from '../../Component/Logo/Logo';
 
 const AuthLayOut = () => {
     return (
-        <div className='max-w-7xl mx-auto bg-[#eaeced] p-6'>
-            <div>
-                <Logo></Logo>
-            </div>
-        <div className='flex'>
-              <div className='flex-1'>
+        <div className='max-w-7xl mx-auto'>
+            <div>   
+                    <Logo></Logo>
+                </div>
+        <div className='flex items-center h-full'>
+              <div className='flex-1 bg-[#ffffff]'>
+                
                 <Outlet></Outlet>
             </div>
-            <div className='flex-1'>
+            <div className='flex-1 bg-[#fafdf0]'>
                 <img src={AuthImage} alt="" />
             </div>
         </div>

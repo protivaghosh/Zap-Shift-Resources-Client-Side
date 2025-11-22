@@ -1,6 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import UseAuth from '../../../../../Hooks/UseAuth';
+import { Link } from 'react-router';
+import SocialLogin from '../SocialLogin/SocialLogin';
 
 const Register = () => {
 
@@ -18,8 +20,8 @@ const Register = () => {
              })
           }
     return (
-        <div>
-           <form onSubmit={handleSubmit(handleRegister)}>
+        <div className="card bg-base-100 w-full mx-auto max-w-sm shrink-0 shadow-2xl">
+           <form className="card-body" onSubmit={handleSubmit(handleRegister)}>
              <fieldset className="fieldset">
           <label className="label">Email</label>
           <input type="email" className="input"{...register('email', {required:true},)} placeholder="Email" />
@@ -36,10 +38,11 @@ const Register = () => {
 
             {errors.password?.type==="pattern" && <p className='text-red-500'>password must be at least one uppercase,at least one lowercase,at least one number and at least one special character</p>}
 
-          <div><a className="link link-hover">Forgot password?</a></div>
-          <button className="btn btn-neutral mt-4">Login</button>
+         <button className="btn bg-[#caeb66] mt-4">Register</button>
+         <p>Already have an account? <Link className='text-red-500 underline' to='/login'>Login</Link></p>
         </fieldset>
            </form>
+           <SocialLogin></SocialLogin>
         </div>
     );
 };
