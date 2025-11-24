@@ -1,18 +1,21 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import UseAuth from '../../../../../Hooks/UseAuth';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import SocialLogin from '../SocialLogin/SocialLogin';
 
 const Login = () => {
       const {register, handleSubmit,  formState: { errors }}=useForm();
       const {signInUser}=UseAuth();
+      const location = useLocation();
+      const navigate = useNavigate();
 
       const handleLogin =(data)=>{
             console.log('from data', data)
              signInUser(data.email, data.password)
              .then(result =>{
                 console.log(result.user)
+                navigate(location?.state || '/')
              })
              .catch(error =>{
                 console.log(error)
@@ -20,6 +23,8 @@ const Login = () => {
            }
     return (
         <div className="card bg-base-100 mx-auto w-full max-w-sm shrink-0 shadow-2xl">
+            <h3 className='text-4xl font-bold mb-2 text-center'>Welcome Back</h3>
+            <p className='text-center'>Login with ZapShift</p>
       <form onSubmit={handleSubmit(handleLogin)} className="card-body">
         <fieldset className="fieldset">
             {/* email field */}
@@ -37,7 +42,7 @@ const Login = () => {
 
           <div><a className="link link-hover">Forgot password?</a></div>
           <button className="btn bg-[#caeb66] mt-4">Login</button>
-          <p>Don’t have any account? <Link className='text-red-500 underline' to='/register'>Register</Link></p>
+          <p>Don’t have any account? <Link state={location.state}className='text-red-500 underline' to='/register'>Register</Link></p>
         </fieldset>
       </form>
       <SocialLogin></SocialLogin>

@@ -10,12 +10,12 @@ const AuthLayOut = () => {
             <div>   
                     <Logo></Logo>
                 </div>
-        <div className='flex items-center h-full'>
+        <div className='flex items-center h-full mt-6'>
               <div className='flex-1 bg-[#ffffff]'>
                 
                 <Outlet></Outlet>
             </div>
-            <div className='flex-1 bg-[#fafdf0]'>
+            <div className='flex-1'>
                 <img src={AuthImage} alt="" />
             </div>
         </div>

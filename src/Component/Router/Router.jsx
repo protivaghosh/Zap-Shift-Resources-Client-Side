@@ -7,37 +7,50 @@ import Coverage from './Pages/Coverage/Coverage';
 import AuthLayOut from '../../LayOut/AuthLayOut/AuthLayOut';
 import Login from './Pages/Auth/Login/Login';
 import Register from './Pages/Auth/Register/Register';
+import PrivateRoute from '../Routes/PrivateRoute/PrivateRoute';
+import Rider from './Pages/Rider/Rider';
 
-const Router =createBrowserRouter([
+const Router = createBrowserRouter([
   {
     path: "/",
-    Component: RootLayOut,
-    children:[
-        {
-            index: true,
-            Component: Home
-        },
-        {
-            path: '/coverage',
-            Component: Coverage,
-            loader: () => fetch('/services-center.json').then(res => res.json())
-        }
+    element: <RootLayOut />,
+    children: [
+      {
+        index: true,
+        element: <Home />
+      },
+      {
+        path: "/rider",
+        element: (
+          <PrivateRoute>
+            <Rider />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: "/coverage",
+        element: <Coverage />,
+        loader: () =>
+          fetch("/services-center.json").then((res) => res.json())
+      }
     ]
   },
   {
-    path: '/',
-    Component: AuthLayOut,
-    children:[
+    path: "/",
+    element: <AuthLayOut />,
+    children: [
       {
-        path: '/login',
-        Component: Login
+        path: "/login",
+        element: <Login />
       },
       {
-        path: '/register',
-        Component: Register
+        path: "/register",
+        element: <Register />
       }
     ]
   }
 ]);
 
 export default Router;
+
+
