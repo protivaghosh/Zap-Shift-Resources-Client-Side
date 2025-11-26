@@ -16,6 +16,7 @@ const Navbar = () => {
     const link = <>
             <li><a>Services</a></li>
             <li><a><NavLink to='/coverage'>Coverage</NavLink></a></li>
+            <li><a><NavLink to='/sendParcel'>Send Parcel</NavLink></a></li>
             <li><a>About Us</a></li>
             <li><a>Pricing</a></li>
             <li><a>Blog</a></li>
