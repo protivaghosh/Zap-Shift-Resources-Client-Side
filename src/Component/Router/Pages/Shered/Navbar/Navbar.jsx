@@ -21,6 +21,12 @@ const Navbar = () => {
             <li><a>Pricing</a></li>
             <li><a>Blog</a></li>
             <li><a>Contact</a></li>
+
+            {
+              user && <>
+              <li><a><NavLink to='/DashBoard/my-parcels'>MY Parcel</NavLink></a></li>
+              </>
+            }
     </>
     return (
         <div className='mb-16'>

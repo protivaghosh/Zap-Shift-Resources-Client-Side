@@ -1,24 +1,77 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useLoaderData } from 'react-router';
+import Swal from 'sweetalert2';
+import UseAxiosSecure from '../../../UseAxiosSecure/UseAxiosSecure';
+import UseAuth from '../../../../Hooks/UseAuth';
 
 const SendParcel = () => {
-    const { register, handleSubmit, watch, formState: { errors },} = useForm();
+    const { register, handleSubmit, control,
+      //  formState: { errors },
+      } = useForm();
+      
+      const axiosSecure = UseAxiosSecure();
+      const {user} = UseAuth();
+
     const serviceCenter  = useLoaderData();
     const regionsDuplicate = serviceCenter.map(c => c.region);
     const regions = [...new Set(regionsDuplicate)]
-    const senderRegion = watch('senderRegions');
+    const senderRegion = useWatch({control, name: 'senderRegions'});
+    const receiverRegion = useWatch({control, name: 'receiverRegions'});
 
     const districtByRegion= region =>{
         const regionDistrict = serviceCenter.filter(c => c.region === region)
         const districts = regionDistrict.map(d => d.district)
         return(districts);
     }
-        console.log(regions)
+        // console.log(regions)
 
-    const handleSendParcel=(data)=>{
-           console.log(data)
+   const handleSendParcel = (data) => {
+    const isDocument = data.type?.toLowerCase() === 'document';
+    const isSameDistrict = data.senderDistrict === data.receiverDistrict;
+    const parcelWeight = parseFloat(data.weight);
+
+    let cost = 0;
+
+    if (isDocument) {
+        cost = isSameDistrict ? 60 : 80;
+    } else {
+
+        if (parcelWeight <= 3) {
+            cost = isSameDistrict ? 110 : 150;
+        }
+
+        if (parcelWeight > 3) {
+            const extraWeight = parcelWeight - 3;
+            const extraCharge = isSameDistrict
+                ? extraWeight * 40
+                : extraWeight * 40 + 40;
+
+            cost = (isSameDistrict ? 110 : 150) + extraCharge;
+        }
     }
+
+    console.log("cost", cost);
+    data.cost = cost;
+
+    Swal.fire({
+        title: "Agree with the cost?",
+        text: `You will be charged ${cost} taka !`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, i agree!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axiosSecure.post('/parcels', data)
+            .then(res => {
+                console.log('after saving parcel', res.data)
+            })
+        }
+    });
+};
+
     return (
       <div className="max-w-7xl mx-auto px-14 pt-10 pb-20 bg-[#ffffff] rounded-xl">
       <h3 className="font-bold text-3xl mb-6">Send A Parcel</h3>
@@ -62,13 +115,13 @@ const SendParcel = () => {
           <div className="space-y-4">
             <h4 className="font-semibold text-xl">Sender Details</h4>
 
-            <input {...register("senderName")} placeholder="Sender Name" className="input input-bordered w-full" />
+            <input {...register("senderName")} 
+            defaultValue={user?.displayName}
+            placeholder="Sender Name" className="input input-bordered w-full" />
 
-              <input {...register("senderEmail")} placeholder="Sender Email" className="input input-bordered w-full" />
-
-            <input {...register("senderAddress")} placeholder="Address" className="input input-bordered w-full" />
-
-            <input {...register("senderPhone")} placeholder="Sender Phone No" className="input input-bordered w-full" />
+              <input {...register("senderEmail")} 
+              defaultValue={user?.email}
+              placeholder="Sender Email" className="input input-bordered w-full" />
 
              <select {...register("senderRegions")} className="select select-bordered w-full">
               <option value="">Select your Regions</option>
@@ -84,7 +137,11 @@ const SendParcel = () => {
               {   
                 districtByRegion(senderRegion).map((region, index )=> <option key={index} value={region}>{region}</option>)
               }
-            </select>
+            </select>  
+
+            <input {...register("senderAddress")} placeholder="Address" className="input input-bordered w-full" />
+
+            <input {...register("senderPhone")} placeholder="Sender Phone No" className="input input-bordered w-full" />
 
             <textarea
               {...register("pickupInstruction")}
@@ -101,16 +158,25 @@ const SendParcel = () => {
 
             <input {...register("receiverEmail")} placeholder="Receiver Email" className="input input-bordered w-full" />
 
+            <select {...register("receiverRegions")} className="select select-bordered w-full">
+              <option value="">Select your Regions</option>
+              {
+                regions.map((region, index )=> <option key={index} value={region}>{region}</option>)
+              }
+              
+             
+            </select>
+
+            <select {...register("receiverDistrict")} className="select select-bordered w-full">
+                 <option value="">Select your District</option>
+              {   
+                districtByRegion(receiverRegion).map((region, index )=> <option key={index} value={region}>{region}</option>)
+              }
+            </select>  
+
             <input {...register("receiverAddress")} placeholder="Receiver Address" className="input input-bordered w-full" />
 
             <input {...register("receiverPhone")} placeholder="Receiver Contact No" className="input input-bordered w-full" />
-
-            <select {...register("receiverDistrict")} className="select select-bordered w-full">
-              <option value="">Select your District</option>
-              <option value="Dhaka">Dhaka</option>
-              <option value="Chattogram">Chattogram</option>
-              <option value="Rajshahi">Rajshahi</option>
-            </select>
 
             <textarea
               {...register("deliveryInstruction")}
