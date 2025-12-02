@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import UseAxiosSecure from '../../../UseAxiosSecure/UseAxiosSecure';
 import UseAuth from '../../../../Hooks/UseAuth';
@@ -12,6 +12,7 @@ const SendParcel = () => {
       
       const axiosSecure = UseAxiosSecure();
       const {user} = UseAuth();
+      const navigate = useNavigate()
 
     const serviceCenter  = useLoaderData();
     const regionsDuplicate = serviceCenter.map(c => c.region);
@@ -67,6 +68,16 @@ const SendParcel = () => {
             axiosSecure.post('/parcels', data)
             .then(res => {
                 console.log('after saving parcel', res.data)
+                if(res.data.insertedId){
+                  navigate('/dashBoard/my-parcels')
+                   Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Your parcel has created please pay",
+                  showConfirmButton: false,
+                  timer: 2000
+                  });
+                }
             })
         }
     });
