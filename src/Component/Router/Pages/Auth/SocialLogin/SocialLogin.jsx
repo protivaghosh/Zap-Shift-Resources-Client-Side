@@ -1,17 +1,33 @@
 import React from 'react';
 import UseAuth from '../../../../../Hooks/UseAuth';
 import { useLocation, useNavigate } from 'react-router';
+import UseAxiosSecure from '../../../../UseAxiosSecure/UseAxiosSecure';
 
 const SocialLogin = () => {
     const {signInGoogle}=UseAuth();
     const location = useLocation();
     const  navigate = useNavigate();
 
+    const axiosSecure = UseAxiosSecure();
+
     const handleGoogleSignIn=()=>{
          signInGoogle()
          .then(result=>{
             console.log(result.user)
-            navigate(location?.state || '/');
+           
+        //    create the database
+             const userInfo = {
+                       email : result.user.email,
+                       displayName : result.user.displayName,
+                       photoURL : result.user.photoURL
+
+                }
+               axiosSecure.post('/user', userInfo)
+                .then(res =>{
+                 console.log('user database has been store', res.data)
+                 navigate(location?.state || '/');
+                 })
+
          })
          .catch(error =>{
             console.log(error)

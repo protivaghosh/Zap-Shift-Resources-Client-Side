@@ -1,10 +1,11 @@
 import React from 'react';
 import { CiDeliveryTruck } from 'react-icons/ci';
+import { FaCreditCard, FaMotorcycle } from 'react-icons/fa';
 import { Link, NavLink, Outlet } from 'react-router';
 
 const DashBoard = () => {
     return (
-        <div className="drawer lg:drawer-open max-w-7xl mx-auto">
+        <div className="drawer lg:drawer-open max-w-7xl mx-auto ">
   <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
   <div className="drawer-content">
     {/* Navbar */}
@@ -33,7 +34,7 @@ const DashBoard = () => {
           </Link>
         </li>
 
-        {/* our dashboard link */}
+        {/* our my-parcels link */}
         <li>
             <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="MyParcels"  to='/Dashboard/my-parcels'>
             <CiDeliveryTruck />
@@ -41,6 +42,24 @@ const DashBoard = () => {
             
             </NavLink>
         </li>
+
+
+        {/* our payments-history link */}
+        <li>
+            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment-History"  to='/Dashboard/payment-history'>
+            <FaCreditCard />
+            <span className="is-drawer-close:hidden">Payment-History</span>
+            
+            </NavLink>
+        </li>
+
+       {/* Approve Riders */}
+        <li>
+            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approve Riders" to="/dashboard/approve-riders">
+            <FaMotorcycle />
+            <span className="is-drawer-close:hidden">Approve Riders</span>
+            </NavLink>
+           </li>
         {/* List item */}
         <li>
           <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">

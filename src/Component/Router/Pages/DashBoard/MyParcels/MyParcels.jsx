@@ -56,7 +56,7 @@ const MyParcels = () => {
         <div>
             <h3>all of my parcels  {parcels.length}</h3>
 
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto max-w-5xl mx-auto mt-6">
   <table className="table">
     {/* head */}
     <thead>
