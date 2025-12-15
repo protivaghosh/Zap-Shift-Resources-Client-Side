@@ -11,7 +11,7 @@ const UsersManagement = () => {
 
 
       const { refetch, data: users = [] } = useQuery({
-        queryKey: ['users'],
+        queryKey: ['users', searchText],
         queryFn: async () => {
             const res = await axiosSecure.get(`/users?searchText=${searchText}`);
             return res.data;

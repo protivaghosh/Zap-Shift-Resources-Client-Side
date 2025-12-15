@@ -3,6 +3,7 @@ import { CiDeliveryTruck } from 'react-icons/ci';
 import { FaCreditCard, FaMotorcycle, FaUsers } from 'react-icons/fa';
 import { Link, NavLink, Outlet } from 'react-router';
 import UseRole from '../../Hooks/UseRole/UseRole';
+import { RiEBikeFill } from 'react-icons/ri';
 
 const DashBoard = () => {
    const { role } = UseRole();

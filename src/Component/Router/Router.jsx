@@ -18,6 +18,7 @@ import PaymentCancel from './Pages/DashBoard/Payment/PaymentCancel';
 import PaymentHistory from './Pages/DashBoard/PaymentHistory/PaymentHistory';
 import ApproveRiders from './Pages/DashBoard/ApproveRiders/ApproveRiders';
 import UsersManagement from './Pages/DashBoard/UsersManagement/UsersManagement';
+import AdminRoute from '../Routes/AdminRoute/AdminRoute';
 
 const Router = createBrowserRouter([
   {
@@ -92,11 +93,15 @@ const Router = createBrowserRouter([
       },
       {
        path : 'approve-riders',
-       element : <ApproveRiders></ApproveRiders>
+       element :<AdminRoute>
+              <ApproveRiders></ApproveRiders>
+       </AdminRoute> 
       },
       {
         path : 'users-management',
-        element : <UsersManagement></UsersManagement>
+        element :<AdminRoute>
+             <UsersManagement></UsersManagement>
+        </AdminRoute> 
       }
     ]
   }

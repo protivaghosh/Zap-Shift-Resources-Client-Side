@@ -14,8 +14,10 @@ const MyParcels = () => {
         queryKey : ['myParcels', user?.email],
         queryFn: async () => {
         const res = await axiosSecure.get(`/parcels?email=${user.email}`)
+         console.log('API parcels:', res.data); 
         return res.data;
-  }, 
+        }, 
+  
      })
 
      const handleParcelDelete = id =>{
@@ -65,6 +67,7 @@ const MyParcels = () => {
         <th>Name</th>
         <th>Cost</th>
         <th>Payment</th>
+         <th>Tracking Id</th>
         <th>Delivery status</th>
         <th>Action</th>
       </tr>
@@ -84,6 +87,8 @@ const MyParcels = () => {
                 </Link>
             }
         </td>
+         <td>{parcel.trackingId}</td>
+                                
         <td>{parcel.deliveryStatus}</td>
         <td>
             <button className="btn btn-square hover:bg-lime-400">
